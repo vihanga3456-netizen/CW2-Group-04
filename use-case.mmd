@@ -1,0 +1,43 @@
+%% Grill & Go UML Use Case Diagram
+%% Render with Mermaid-compatible tooling.
+flowchart LR
+    Customer([Customer])
+    Kitchen([Kitchen Staff])
+    Manager([Store Manager])
+    PayNow([PayNow / Payment Gateway])
+    BI([Power BI / Tableau])
+
+    subgraph System[Grill & Go Digital Ordering System]
+        QR[Scan Table QR Code]
+        Menu[View Menu]
+        Customize[Customize Order]
+        Place[Place Order]
+        Pay[Make Payment]
+        ViewPaid[View Paid Orders]
+        Status[Update Order Status]
+        Manage[Manage Menu Availability]
+        Out[Mark Item Out of Stock]
+        Restore[Restore Item Availability]
+        Analytics[View Sales Analytics]
+    end
+
+    Customer --> QR
+    Customer --> Menu
+    Customer --> Customize
+    Customer --> Place
+    Customer --> Pay
+
+    Kitchen --> ViewPaid
+    Kitchen --> Status
+
+    Manager --> Manage
+    Manager --> Analytics
+
+    PayNow --> Pay
+    BI --> Analytics
+
+    Place -. "<<include>>" .-> Pay
+    Customize -. "<<include>>" .-> Place
+    Manage -. "<<include>>" .-> Out
+    Manage -. "<<include>>" .-> Restore
+    Analytics -. "<<include>>" .-> ViewPaid

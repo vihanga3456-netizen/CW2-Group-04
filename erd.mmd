@@ -1,0 +1,47 @@
+%% Database ERD
+erDiagram
+    TABLES ||--o{ ORDERS : has
+    ORDERS ||--|{ ORDER_ITEMS : contains
+    MENU_ITEMS ||--o{ ORDER_ITEMS : appears_in
+    ORDERS ||--o{ PAYMENTS : has
+
+    TABLES {
+        int table_id PK
+        string table_number
+        string qr_code
+        string status
+    }
+
+    ORDERS {
+        int order_id PK
+        int table_id FK
+        string order_status
+        decimal total_amount
+        datetime created_at
+    }
+
+    ORDER_ITEMS {
+        int order_item_id PK
+        int order_id FK
+        int menu_item_id FK
+        int quantity
+        decimal unit_price
+        string customization
+    }
+
+    MENU_ITEMS {
+        int menu_item_id PK
+        string name
+        string description
+        decimal price
+        string availability
+    }
+
+    PAYMENTS {
+        int payment_id PK
+        int order_id FK
+        string payment_method
+        string payment_status
+        string transaction_reference
+        datetime paid_at
+    }

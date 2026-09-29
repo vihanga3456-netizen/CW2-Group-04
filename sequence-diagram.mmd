@@ -1,0 +1,23 @@
+%% UML Sequence Diagram - Order Placement and PayNow Payment
+sequenceDiagram
+    actor Customer
+    participant Web as Mobile Front-End
+    participant API as API Backend
+    participant DB as Relational DB
+    participant PayNow as PayNow Gateway
+    participant KDS as KDS Tablet
+
+    Customer->>Web: Select items and customization
+    Web->>API: POST /api/v1/orders
+    API->>DB: Create order (pending payment)
+    DB-->>API: Order ID and total
+    API-->>Web: Payment required
+    Web->>PayNow: Initiate PayNow payment
+    PayNow-->>Customer: Payment authorization
+    Customer->>PayNow: Confirm payment
+    PayNow-->>API: Payment confirmation
+    API->>DB: Record payment as PAID
+    API->>DB: Update order as paid/releasable
+    API->>KDS: Release paid order
+    KDS-->>API: Order received as Pending
+    API-->>Web: Order/payment confirmation

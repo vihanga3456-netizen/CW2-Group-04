@@ -1,0 +1,14 @@
+%% C4 C1 System Context Diagram
+flowchart LR
+    Customer([Customer])
+    Kitchen([Kitchen Staff])
+    Manager([Store Manager])
+    System["Grill & Go Digital Ordering System"]
+    PayNow([PayNow / Payment Gateway])
+    BI([Power BI / Tableau])
+
+    Customer -->|Mobile browser ordering| System
+    Kitchen -->|View and update orders| System
+    Manager -->|Manage menu availability| System
+    System -->|Payment requests / confirmations| PayNow
+    System -->|Transactional sales data| BI

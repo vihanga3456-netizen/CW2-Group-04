@@ -1,0 +1,23 @@
+%% C4 C2 Container Diagram
+flowchart TB
+    Customer([Customer])
+    Kitchen([Kitchen Staff])
+    Manager([Store Manager])
+    PayNow([PayNow / Payment Gateway])
+    BI([Power BI / Tableau])
+
+    subgraph System["Grill & Go Digital Ordering System"]
+        Web["Mobile Web Front-End<br/>React / browser UI"]
+        API["API Backend<br/>Node.js + Express / REST"]
+        DB[("Relational Database<br/>PostgreSQL")]
+        KDS["KDS Tablet Interface<br/>Web tablet UI"]
+    end
+
+    Customer -->|HTTPS| Web
+    Web -->|REST/JSON| API
+    API -->|Read/write| DB
+    API -->|Payment request / confirmation| PayNow
+    API -->|Paid orders / status operations| KDS
+    Kitchen -->|Tablet| KDS
+    Manager -->|Web interface| Web
+    DB -->|Transactional analytics access| BI
