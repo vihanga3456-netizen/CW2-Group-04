@@ -1,43 +1,68 @@
-%% Grill & Go UML Use Case Diagram
-%% Render with Mermaid-compatible tooling.
-flowchart LR
-    Customer([Customer])
-    Kitchen([Kitchen Staff])
-    Manager([Store Manager])
-    PayNow([PayNow / Payment Gateway])
-    BI([Power BI / Tableau])
+@startuml
+left to right direction
 
-    subgraph System[Grill & Go Digital Ordering System]
-        QR[Scan Table QR Code]
-        Menu[View Menu]
-        Customize[Customize Order]
-        Place[Place Order]
-        Pay[Make Payment]
-        ViewPaid[View Paid Orders]
-        Status[Update Order Status]
-        Manage[Manage Menu Availability]
-        Out[Mark Item Out of Stock]
-        Restore[Restore Item Availability]
-        Analytics[View Sales Analytics]
-    end
+actor Customer
+actor "Kitchen Staff" as Kitchen
+actor "Store Manager" as Manager
 
-    Customer --> QR
-    Customer --> Menu
-    Customer --> Customize
-    Customer --> Place
-    Customer --> Pay
+actor "PayNow / Payment Gateway" as PayNow
+actor "Power BI / Tableau" as BI
 
-    Kitchen --> ViewPaid
-    Kitchen --> Status
+rectangle "Grill & Go Digital Ordering System" {
 
-    Manager --> Manage
-    Manager --> Analytics
+    usecase "Scan Table QR Code" as UC1
+    usecase "View Menu" as UC2
+    usecase "Customize Order" as UC3
+    usecase "Place Order" as UC4
+    usecase "Make Payment" as UC5
+    usecase "Receive Order Confirmation" as UC6
 
-    PayNow --> Pay
-    BI --> Analytics
+    usecase "View Paid Orders" as UC7
+    usecase "Accept Order" as UC8
+    usecase "Update Order Status" as UC9
+    usecase "Mark Order Ready" as UC10
 
-    Place -. "<<include>>" .-> Pay
-    Customize -. "<<include>>" .-> Place
-    Manage -. "<<include>>" .-> Out
-    Manage -. "<<include>>" .-> Restore
-    Analytics -. "<<include>>" .-> ViewPaid
+    usecase "Manage Menu Availability" as UC11
+    usecase "Mark Item Out of Stock" as UC12
+    usecase "Restore Item Availability" as UC13
+    usecase "View Sales Analytics" as UC14
+
+    usecase "Validate Order" as UC15
+    usecase "Process Payment" as UC16
+    usecase "Record Payment" as UC17
+    usecase "Generate Sales Data" as UC18
+}
+
+Customer --> UC1
+Customer --> UC2
+Customer --> UC3
+Customer --> UC4
+Customer --> UC5
+Customer --> UC6
+
+Kitchen --> UC7
+Kitchen --> UC8
+Kitchen --> UC9
+Kitchen --> UC10
+
+Manager --> UC11
+Manager --> UC14
+
+PayNow --> UC16
+BI --> UC14
+
+UC4 ..> UC15 : <<include>>
+UC4 ..> UC16 : <<include>>
+UC16 ..> UC17 : <<include>>
+UC4 ..> UC6 : <<include>>
+
+UC8 ..> UC7 : <<include>>
+UC9 ..> UC7 : <<include>>
+UC10 ..> UC9 : <<include>>
+
+UC11 ..> UC12 : <<include>>
+UC11 ..> UC13 : <<include>>
+
+UC14 ..> UC18 : <<include>>
+
+@enduml
